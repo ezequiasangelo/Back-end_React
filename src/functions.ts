@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 async function adicionarCaracteristicas(req: any, res: any) {
   const { nome_cientifico, descricao, domestico, idade_vive } =
     req.body;
+    
 
   const novocavalo = await prisma.cavalo.create({
     data: {
@@ -13,9 +14,19 @@ async function adicionarCaracteristicas(req: any, res: any) {
         domestico,
         idade_vive
     }
+    
   });
 
-  return res.status(201).send("Características Salvas!");
+  return res.status(201).send("update successfully saved!");
 }
 
-export default { adicionarCaracteristicas };
+// Listar as caracteristicas
+async function listarCaracteristicas() {
+  const listarCavalo = await prisma.cavalo.findMany();
+
+  return listarCavalo;
+}
+
+
+
+export default { adicionarCaracteristicas, listarCaracteristicas, };
