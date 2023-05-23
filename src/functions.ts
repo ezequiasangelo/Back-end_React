@@ -60,6 +60,26 @@ async function buscaCaracteristicas(req: any, res: any) {
 }
 
 
+// Editar as caracteristicas
+async function editarCaracteristicas(req: any, res: any) {
+  const { id } = req.params;
+  const {  nome_cientifico, descricao, domestico, idade_vive, } = req.body;
+
+  
+  const editarCavalo = await prisma.cavalo.update({
+    where: {
+      id: id,
+    },
+    data: {
+      nome_cientifico: nome_cientifico,
+      descricao: descricao,
+      domestico: domestico,
+      idade_vive: idade_vive,
+    },
+  });
+
+  return res.status(205).send("update successfully saved!!");
+}
 
 
-export default { adicionarCaracteristicas, listarCaracteristicas, buscaCaracteristicas, };
+export default { adicionarCaracteristicas, listarCaracteristicas, buscaCaracteristicas, editarCaracteristicas,};
