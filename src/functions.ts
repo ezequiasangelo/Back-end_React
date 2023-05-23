@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 // Função para adicionar características ao Cavalo
 async function adicionarCaracteristicas(req: any, res: any) {
-  const { nome_cientifico, descricao, domestico, idade_vive } =
+  const { nome_cientifico, descricao, domestico, idade_vive, } =
     req.body;
     
 
@@ -12,7 +12,7 @@ async function adicionarCaracteristicas(req: any, res: any) {
         nome_cientifico,
         descricao,
         domestico,
-        idade_vive
+        idade_vive,
     }
     
   });
@@ -28,5 +28,38 @@ async function listarCaracteristicas() {
 }
 
 
+// Buscar as caracteristicas
+async function buscaCaracteristicas(req: any, res: any) {
 
-export default { adicionarCaracteristicas, listarCaracteristicas, };
+  const { q, query } = req.params;
+
+  if (typeof q !== "string" ) {
+    throw new Error(res.send("Busca Inválida"));
+  }
+  const buscaCavalo = await prisma.cavalo.findMany({
+    where: {
+      OR: [
+        {
+          nome_cientifico: {
+            contains: q,
+            mode: "insensitive",
+          },
+        },
+        {
+          descricao: {
+            contains: q,
+            mode: "insensitive",
+          },
+        },
+        
+      ],
+    },
+  });
+
+  return res.send(buscaCavalo);
+}
+
+
+
+
+export default { adicionarCaracteristicas, listarCaracteristicas, buscaCaracteristicas, };
