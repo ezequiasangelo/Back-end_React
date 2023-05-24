@@ -68,7 +68,7 @@ async function editarCaracteristicas(req: any, res: any) {
   
   const editarCavalo = await prisma.cavalo.update({
     where: {
-      id: id,
+      id: Number(id),
     },
     data: {
       nome_cientifico: nome_cientifico,
@@ -81,5 +81,23 @@ async function editarCaracteristicas(req: any, res: any) {
   return res.status(205).send("update successfully saved!!");
 }
 
+async function deleteCaracteristicas(req: any, res: any)  {
+  const { id } = req.params;
 
-export default { adicionarCaracteristicas, listarCaracteristicas, buscaCaracteristicas, editarCaracteristicas,};
+
+  const deleteCavalo = await prisma.cavalo.delete({
+    where: {
+      id: Number(id),
+    },
+    
+  });
+  
+  return res.status(205).send("Delete successfully saved!!");
+
+}
+
+
+
+
+export default { adicionarCaracteristicas, listarCaracteristicas, buscaCaracteristicas, 
+editarCaracteristicas, deleteCaracteristicas,};
