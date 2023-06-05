@@ -13,6 +13,6 @@ model cavalo {
   id Int @id @default(autoincrement())
   nome_cientifico String
   descricao String  @db.Text()
-  domestico Boolean
+  domestico Boolean  @default(true)
   idade_vive Int
 }
